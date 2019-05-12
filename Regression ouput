@@ -1,0 +1,35 @@
+For img at level F1 w1
+MSE for train set without pooling: 0.023554471333821613
+MSE for test set without pooling: 8.924411163330078
+MSE for train set after pooling: 0.3700921630859375
+MSE for test set after pooling: 1.006591796875
+
+For img at level F1 w2
+MSE for train set without pooling: 0.29632975260416666
+MSE for test set without pooling: 359771488892436.7
+MSE for train set after pooling: 1.6240034484863282
+MSE for test set after pooling: 5.603437042236328
+
+For img at level F23 w1
+MSE for train set without pooling: 0.1036456298828125
+MSE for test set without pooling: 4.42330810546875
+MSE for train set after pooling: 0.4898193283875783
+MSE for test set after pooling: 1.2117997521162034
+
+For img at level F23 w2
+MSE for train set without pooling: 0.6213380021968673
+MSE for test set without pooling: 16.764259249119732
+MSE for train set after pooling: 2.2073583984375
+MSE for test set after pooling: 4.72746826171875
+
+For img at level F48 w1
+MSE for train set without pooling: 0.4423178482055664
+MSE for test set without pooling: 545290048128219.94
+MSE for train set after pooling: 1.1745162963867188
+MSE for test set after pooling: 1.810093536376953
+
+For img at level F48 w2
+MSE for train set without pooling: 0.6148554512303654
+MSE for test set without pooling: 14.063073441674048
+MSE for train set after pooling: 2.3382307942708334
+MSE for test set after pooling: 5.414047622680664
