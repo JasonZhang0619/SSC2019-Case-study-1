@@ -43,11 +43,11 @@ init = tf.global_variables_initializer()
 sess.run(init)
 
 #load training set
-images, blur, stain, labels = utils.read_trainimgset(F='F1',w='w1')
-training_images=images[:300]
-training_labels=labels[:300]
-test_images=images[300:]
-test_labels=labels[300:]
+all_images, all_blur, all_stain, all_labels = utils.read_trainimgset(F='F1',w='w1')
+training_images=all_images[:300]
+training_labels=all_labels[:300]
+test_images=all_images[300:]
+test_labels=all_labels[300:]
 
 size=100
 j=0
