@@ -32,10 +32,8 @@ def read_imgset(csv_path='train_label.csv',train=True, F=None, w=None, hist = Tr
 def get_dummy(set):
     return pd.get_dummies(set,columns=['blur','stain'],drop_first=True)
 
-def get_data_level(dataset,F='F1',w='w1'):
-    datasetF1 = dataset.filter(regex=F, axis=0)
-    datasetF1w1 = datasetF1.filter(regex=w, axis=0)
-    return shuffle(datasetF1w1)
+
+
 
 
 
