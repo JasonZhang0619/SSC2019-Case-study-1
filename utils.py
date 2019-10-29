@@ -1,4 +1,4 @@
-from PIL import Image
+from PIL import Image #package name is pollow
 import numpy as np
 import pandas as pd
 from sklearn.utils import shuffle

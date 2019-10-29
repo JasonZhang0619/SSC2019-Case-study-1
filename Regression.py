@@ -1,14 +1,8 @@
-import tensorflow as tf
 import utils
+import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error
-
-def pooling(hist, window=10, step=10):
-    with tf.name_scope('pooling'):
-        hist_pool = tf.nn.avg_pool(hist, ksize=[1, window, 1, 1], strides=[1, step, 1, 1], padding='VALID')
-        hist_pool = tf.keras.layers.Flatten()(hist_pool)
-    return hist_pool
 
 class PoolRegressor:
     def __init__(self,window=10,step=10,pool=True):
@@ -16,10 +10,11 @@ class PoolRegressor:
         self.step=step
         self.pool=pool
 
-    def pooling(self, hist, window=self.window, step=self.step):
-        with tf.name_scope('pooling'):
-            hist_pool = tf.nn.avg_pool(hist, ksize=[1, window, 1, 1], strides=[1, step, 1, 1], padding='VALID')
-            hist_pool = tf.keras.layers.Flatten()(hist_pool)
+    def pooling(self, hist):
+        hist_pool=[]
+        for start in range(0,255,self.step):
+            hist_pool.append(np.mean(hist[:,start:start+self.window],axis=1))
+        hist_pool=np.vstack(hist_pool).T
         return hist_pool
 
     def train(self, Xtrain, ytrain):
@@ -34,6 +29,7 @@ class PoolRegressor:
 F = 'F1'
 w = 'w1'
 X, df=utils.read_imgset(csv_path='train_label.csv',train=True, F=F, w=w, hist = True)
+X=X.reshape([-1,255,1,1])
 kf = KFold(n_splits=10)
 fit=PoolRegressor()
 for train, test in kf.split(X):
@@ -41,6 +37,7 @@ for train, test in kf.split(X):
     fit.train(X[train,], df['count'][train])
     ypred=fit.predict(X[test,])
     print(mean_squared_error(y_pred=ypred,y_true=df['count'][test]))
+
 #pool_dict={'F1w1':34,'F1w2':14,'F23w1':16,'F23w2':32,'F48w1':14,'F48w2':60}
 #with topology
 
