@@ -41,7 +41,7 @@ for train, test in kf.split(X):
     fit.train(X[train,], df['count'][train])
     ypred=fit.predict(X[test,])
     print(mean_squared_error(y_pred=ypred,y_true=df['count'][test]))
-
+#pool_dict={'F1w1':34,'F1w2':14,'F23w1':16,'F23w2':32,'F48w1':14,'F48w2':60}
 #with topology
 
 # train_feats=np.append(train_hist_pool,train_cell_hist,axis=1)

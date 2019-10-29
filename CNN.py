@@ -6,8 +6,8 @@ images=tf.placeholder(dtype=tf.float32, shape=[None,520,696,1],name='input_image
 features=tf.placeholder(dtype=tf.float32,shape=[None,3],name='factors')
 counts=tf.placeholder(dtype=tf.float32,shape=[None,1],name='counts')
 
-
-def inference(images):
+#define CNN strucutre
+def CNN(images):
     #shrink the images first
     images_small=tf.nn.avg_pool(images, ksize=[1, 10, 10, 1], strides=[1, 5, 5, 1], padding='VALID')
     with tf.variable_scope('cov1'):
@@ -31,10 +31,14 @@ def inference(images):
         y = tf.layers.dense(h1,1)
     return y
 
-y=inference(images)
+y=CNN(images)
+#define loss function
 loss=tf.losses.mean_squared_error(y,counts)
 tf.summary.scalar('MSE',loss)
+#define training optimizer
 train_step = tf.train.AdamOptimizer(1e-4).minimize(loss)
+
+#start session
 sess = tf.Session()
 merged = tf.summary.merge_all()
 writer = tf.summary.FileWriter("logs/"+'train/', sess.graph)
@@ -43,16 +47,15 @@ init = tf.global_variables_initializer()
 sess.run(init)
 
 #load training set
-all_images, all_blur, all_stain, all_labels = utils.read_trainimgset(F='F1',w='w1')
+all_images, all_blur, all_stain, all_labels = utils.read_imgset(F='F1',w='w1',hist=False)
 training_images=all_images[:300]
 training_labels=all_labels[:300]
 test_images=all_images[300:]
 test_labels=all_labels[300:]
 
+#train CNN
 size=100
-j=0
-for _ in range(1000):
-    j+=1
+for j in range(1000):
     slice=np.random.choice(training_images.shape[0],size,replace=False)
     batch_images=training_images[slice]
     batch_labels=training_labels[slice]
