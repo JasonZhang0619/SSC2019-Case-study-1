@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error
+from sklearn.utils import shuffle
 
 class PoolRegressor:
     def __init__(self,window=10,step=10,pool=True):
@@ -29,7 +30,7 @@ class PoolRegressor:
 F = 'F1'
 w = 'w1'
 X, df=utils.read_imgset(csv_path='train_label.csv',train=True, F=F, w=w, hist = True)
-X=X.reshape([-1,255,1,1])
+X, df = shuffle(X, df, random_state=0)
 kf = KFold(n_splits=10)
 fit=PoolRegressor()
 for train, test in kf.split(X):
