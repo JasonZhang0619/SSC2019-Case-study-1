@@ -10,6 +10,7 @@ class PoolRegressor:
         self.window=window
         self.step=step
         self.pool=pool
+        self.regressor=LinearRegression()
 
     def pooling(self, hist):
         hist_pool=[]
@@ -19,25 +20,12 @@ class PoolRegressor:
         return hist_pool
 
     def train(self, Xtrain, ytrain):
-        if (self.pool): Xtrain_pool=self.pooling(Xtrain)
-        self.reg = LinearRegression().fit(Xtrain_pool, ytrain)
+        if (self.pool): Xtrain=self.pooling(Xtrain)
+        self.fit = self.regressor.fit(Xtrain, ytrain)
 
     def predict(self,Xtest):
-        Xtest_pool = self.pooling(Xtest)
-        return self.reg.predict(Xtest_pool)
-
-
-F = 'F1'
-w = 'w1'
-X, df=utils.read_imgset(csv_path='train_label.csv',train=True, F=F, w=w, hist = True)
-X, df = shuffle(X, df, random_state=0)
-kf = KFold(n_splits=10)
-fit=PoolRegressor()
-for train, test in kf.split(X):
-    ytrain= df['count'][train]
-    fit.train(X[train,], df['count'][train])
-    ypred=fit.predict(X[test,])
-    print(mean_squared_error(y_pred=ypred,y_true=df['count'][test]))
+        if (self.pool): Xtest=self.pooling(Xtest)
+        return self.fit.predict(Xtest)
 
 #pool_dict={'F1w1':34,'F1w2':14,'F23w1':16,'F23w2':32,'F48w1':14,'F48w2':60}
 #with topology
