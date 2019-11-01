@@ -47,11 +47,12 @@ init = tf.global_variables_initializer()
 sess.run(init)
 
 #load training set
-all_images, all_blur, all_stain, all_labels = utils.read_imgset(F='F1',w='w1',hist=False)
+all_images, df = utils.read_imgset(csv_path='train_label.csv', train=True,
+                          hist = False)
 training_images=all_images[:300]
-training_labels=all_labels[:300]
+training_labels=np.array(df['count'])[:300]
 test_images=all_images[300:]
-test_labels=all_labels[300:]
+test_labels=np.array(df['count'])[300:]
 
 #train CNN
 size=100
@@ -66,3 +67,5 @@ for j in range(1000):
         writer.add_summary(train_loss,j)
         test_loss = sess.run(merged, feed_dict={images: test_images, counts: test_labels})
         writer_test.add_summary(test_loss,j)
+
+
